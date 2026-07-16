@@ -3,6 +3,7 @@ package com.example.mapai.data
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 
 data class AppSettings(
@@ -55,28 +56,42 @@ data class AppSettings(
 
 object SettingsStore {
     private const val NAME = "mapai_settings"
-    private lateinit var prefs: SharedPreferences
+    private var prefs: SharedPreferences? = null
+
+    private val _settings = mutableStateOf(AppSettings())
+    val settings: androidx.compose.runtime.State<AppSettings> = _settings
 
     fun init(context: Context) {
         prefs = context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
+        reload()
     }
 
-    fun get(): AppSettings = AppSettings(
-        serverUrl = prefs.getString("serverUrl", "http://10.0.2.2:3000")!!,
-        language = prefs.getString("language", "en")!!,
-        units = prefs.getString("units", "metric")!!,
-        mapSource = prefs.getInt("mapSource", AppSettings.MAP_SOURCE_OSM),
-        themeColor = prefs.getInt("themeColor", AppSettings.THEME_BLUE),
-        textColor = prefs.getInt("textColor", AppSettings.TEXT_AUTO),
-        darkTheme = prefs.getBoolean("darkTheme", false),
-        autoConfig = prefs.getBoolean("autoConfig", true),
-        offlineOnly = prefs.getBoolean("offlineOnly", false),
-        sosContactName = prefs.getString("sosContactName", "")!!,
-        sosContactPhone = prefs.getString("sosContactPhone", "")!!
+    private fun prefs(): SharedPreferences {
+        return prefs ?: throw IllegalStateException("SettingsStore not initialized. Call init(context) first.")
+    }
+
+    fun reload() {
+        _settings.value = read()
+    }
+
+    fun get(): AppSettings = _settings.value
+
+    private fun read(): AppSettings = AppSettings(
+        serverUrl = prefs().getString("serverUrl", "http://10.0.2.2:3000")!!,
+        language = prefs().getString("language", "en")!!,
+        units = prefs().getString("units", "metric")!!,
+        mapSource = prefs().getInt("mapSource", AppSettings.MAP_SOURCE_OSM),
+        themeColor = prefs().getInt("themeColor", AppSettings.THEME_BLUE),
+        textColor = prefs().getInt("textColor", AppSettings.TEXT_AUTO),
+        darkTheme = prefs().getBoolean("darkTheme", false),
+        autoConfig = prefs().getBoolean("autoConfig", true),
+        offlineOnly = prefs().getBoolean("offlineOnly", false),
+        sosContactName = prefs().getString("sosContactName", "")!!,
+        sosContactPhone = prefs().getString("sosContactPhone", "")!!
     )
 
     fun save(settings: AppSettings) {
-        prefs.edit {
+        prefs().edit {
             putString("serverUrl", settings.serverUrl)
             putString("language", settings.language)
             putString("units", settings.units)
@@ -89,5 +104,6 @@ object SettingsStore {
             putString("sosContactName", settings.sosContactName)
             putString("sosContactPhone", settings.sosContactPhone)
         }
+        _settings.value = settings
     }
 }

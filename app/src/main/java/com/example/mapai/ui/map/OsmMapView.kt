@@ -4,13 +4,17 @@ import android.graphics.Color
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.mapai.data.AlertType
+import com.example.mapai.data.AppSettings
 import com.example.mapai.data.GeoPoint
+import com.example.mapai.data.SettingsStore
 import com.example.mapai.util.toOsm
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
 import org.osmdroid.util.GeoPoint as OsmGeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
@@ -30,15 +34,25 @@ data class MapMarkers(
 fun OsmMapView(
     markers: MapMarkers,
     modifier: Modifier = Modifier,
+    mapSource: Int = AppSettings.MAP_SOURCE_OSM,
     onMapClick: (GeoPoint) -> Unit = {},
     onReady: (MapView) -> Unit = {}
 ) {
     val mapView = remember { MapView(androidx.compose.ui.platform.LocalContext.current) }
+    val settings by SettingsStore.settings.collectAsState()
+
+    LaunchedEffect(mapSource) {
+        val source = when (mapSource) {
+            AppSettings.MAP_SOURCE_TOPO -> TileSourceFactory.OpenTopo
+            AppSettings.MAP_SOURCE_CYCLE -> TileSourceFactory.OpenCycleMap
+            else -> TileSourceFactory.MAPNIK
+        }
+        mapView.setTileSource(source)
+    }
 
     AndroidView(
         factory = { ctx ->
             mapView.apply {
-                setTileSource(TileSourceFactory.MAPNIK)
                 setMultiTouchControls(true)
                 controller.setZoom(15.0)
                 InfoWindow.closeAllInfoWindowsOn("")

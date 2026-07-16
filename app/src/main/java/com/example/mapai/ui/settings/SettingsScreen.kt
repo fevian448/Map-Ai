@@ -20,6 +20,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,7 +36,8 @@ import com.example.mapai.util.ALL_LANGUAGES
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SettingsScreen() {
-    var settings by remember { mutableStateOf(SettingsStore.get()) }
+    val settingsState by SettingsStore.settings.collectAsState()
+    var settings by remember { mutableStateOf(settingsState) }
 
     Column(
         modifier = Modifier

@@ -41,7 +41,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mapai.data.AppSettings
 import com.example.mapai.data.GeoPoint
+import com.example.mapai.data.SettingsStore
 import com.example.mapai.data.TrafficLevel
 import com.example.mapai.location.LocationProvider
 import com.example.mapai.ui.MapViewModel
@@ -88,6 +90,7 @@ fun MapScreen(
                 speedCameras = state.speedCameras.map { it.point },
                 route = state.route?.points ?: emptyList()
             ),
+            mapSource = state.myLocation?.let { SettingsStore.get().mapSource } ?: AppSettings.MAP_SOURCE_OSM,
             modifier = Modifier.fillMaxSize(),
             onReady = { mv ->
                 mapView = mv

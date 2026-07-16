@@ -57,7 +57,11 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.MapAi"
-        tools:targetApi="31">
+        tools:targetApi="36">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBLApTRwV8HEm8xlLQTNfZyDcByUx_2hYU"/>
 
         <activity
             android:name=".MainActivity"

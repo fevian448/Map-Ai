@@ -49,7 +49,7 @@ fun SosScreen(viewModel: MapViewModel = viewModel()) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val settings = remember { SettingsStore.get() }
+    val settings by SettingsStore.settings.collectAsState()
     var sent by remember { mutableStateOf(false) }
 
     val loc = state.myLocation ?: com.example.mapai.data.GeoPoint(-6.2, 106.8)

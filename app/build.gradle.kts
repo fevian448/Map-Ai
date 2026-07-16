@@ -20,13 +20,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "GOOGLE_MAPS_API_KEY", "\"${project.findProperty("GOOGLE_MAPS_API_KEY") ?: ""}\"")
     }
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "app/src/main/keepRules/rules.keep")
         }
     }
     compileOptions {
@@ -56,6 +57,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.gson)
+    implementation(libs.socket.io.client)
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.10")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-common:2.2.10")

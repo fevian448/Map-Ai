@@ -11,6 +11,7 @@ import com.example.mapai.data.RouteInfo
 import com.example.mapai.data.SpeedCamera
 import com.example.mapai.data.TrafficAlert
 import com.example.mapai.data.TrafficLevel
+import com.example.mapai.data.remote.SocketManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,13 +31,39 @@ data class MapUiState(
     val selectedCategory: PlaceCategory = PlaceCategory.FUEL,
     val places: List<Place> = emptyList(),
     val searchQuery: String = "",
-    val searchResults: List<Place> = emptyList()
+    val searchResults: List<Place> = emptyList(),
+    val isConnected: Boolean = false
 )
 
 class MapViewModel : ViewModel() {
 
     private val _state = MutableStateFlow(MapUiState())
     val state: StateFlow<MapUiState> = _state.asStateFlow()
+
+    init {
+        setupSocketListeners()
+    }
+
+    private fun setupSocketListeners() {
+        SocketManager.onNewReport = { alert ->
+            _state.value = _state.value.copy(
+                alerts = listOf(alert) + _state.value.alerts
+            )
+        }
+        SocketManager.onNewSos = { alert ->
+            _state.value = _state.value.copy(
+                alerts = listOf(alert) + _state.value.alerts
+            )
+        }
+        SocketManager.onConnectionChange = { connected ->
+            _state.value = _state.value.copy(isConnected = connected)
+        }
+    }
+
+    fun connectSocket() {
+        val url = com.example.mapai.data.SettingsStore.get().serverUrl
+        SocketManager.connect(url)
+    }
 
     fun setLocation(point: GeoPoint) {
         val first = _state.value.myLocation == null
@@ -47,9 +74,9 @@ class MapViewModel : ViewModel() {
     fun refreshAround(point: GeoPoint) {
         viewModelScope.launch {
             _state.value = _state.value.copy(
-                alerts = MapRepository.generateAlerts(point),
+                alerts = MapRepository.fetchAlerts(point),
                 speedCameras = MapRepository.generateSpeedCameras(point),
-                places = MapRepository.generatePlaces(point, _state.value.selectedCategory)
+                places = MapRepository.fetchPlaces(point, _state.value.selectedCategory)
             )
         }
     }
@@ -98,10 +125,12 @@ class MapViewModel : ViewModel() {
 
     fun setCategory(category: PlaceCategory) {
         val loc = _state.value.myLocation ?: return
-        _state.value = _state.value.copy(
-            selectedCategory = category,
-            places = MapRepository.generatePlaces(loc, category)
-        )
+        viewModelScope.launch {
+            _state.value = _state.value.copy(
+                selectedCategory = category,
+                places = MapRepository.fetchPlaces(loc, category)
+            )
+        }
     }
 
     fun search(query: String) {
@@ -122,17 +151,27 @@ class MapViewModel : ViewModel() {
 
     fun addAlert(type: AlertType) {
         val loc = _state.value.myLocation ?: return
-        val alert = TrafficAlert(
-            id = "user_${System.currentTimeMillis()}",
-            type = type,
-            point = loc,
-            description = "Laporan Anda: ${type.label}",
-            reporter = "Anda",
-            timestamp = System.currentTimeMillis(),
-            confidence = 100,
-            confirmedBy = 1
-        )
-        _state.value = _state.value.copy(alerts = listOf(alert) + _state.value.alerts)
+        viewModelScope.launch {
+            val alert = TrafficAlert(
+                id = "user_${System.currentTimeMillis()}",
+                type = type,
+                point = loc,
+                description = "Laporan Anda: ${type.label}",
+                reporter = "Anda",
+                timestamp = System.currentTimeMillis(),
+                confidence = 100,
+                confirmedBy = 1
+            )
+            MapRepository.postReport(type, loc, alert.description, "Anda")
+            _state.value = _state.value.copy(alerts = listOf(alert) + _state.value.alerts)
+        }
+    }
+
+    fun sendSos() {
+        val loc = _state.value.myLocation ?: return
+        viewModelScope.launch {
+            MapRepository.postSos("Anda", loc, "SOS")
+        }
     }
 
     fun nearbyAlertsFor(level: TrafficLevel? = null): List<TrafficAlert> =

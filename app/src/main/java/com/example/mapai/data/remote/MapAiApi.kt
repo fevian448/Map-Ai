@@ -40,4 +40,19 @@ interface MapAiApi {
 
     @POST("api/cctv")
     suspend fun postCctv(@Body body: CctvDto): Map<String, String>
+
+    @GET("api/places")
+    suspend fun getPlaces(
+        @Query("lat") lat: Double? = null,
+        @Query("lon") lon: Double? = null,
+        @Query("radius") radius: Double = 5.0,
+        @Query("category") category: String? = null
+    ): List<PlaceDto>
+
+    @GET("api/directions")
+    suspend fun getDirections(
+        @Query("from") from: String,
+        @Query("to") to: String,
+        @Query("profile") profile: String = "driving"
+    ): DirectionsResponse
 }

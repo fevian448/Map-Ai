@@ -1,5 +1,9 @@
 package com.example.mapai.data
 
+import com.example.mapai.data.remote.ApiClient
+import com.example.mapai.data.remote.PlaceDto
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -31,6 +35,27 @@ object MapRepository {
 
     private val fuelPrices = listOf("Rp 10.000/L", "Rp 12.500/L", "Rp 13.900/L", "Rp 14.500/L")
 
+    suspend fun fetchAlerts(center: GeoPoint, radiusKm: Double = 5.0): List<TrafficAlert> = withContext(Dispatchers.IO) {
+        try {
+            val dtos = ApiClient.api().getReports(center.latitude, center.longitude, radiusKm)
+            dtos.map { dto ->
+                val type = AlertType.entries.find { it.name == dto.type } ?: AlertType.HAZARD
+                TrafficAlert(
+                    id = dto.id,
+                    type = type,
+                    point = GeoPoint(dto.lat, dto.lon),
+                    description = dto.description,
+                    reporter = dto.reporter,
+                    timestamp = dto.createdAt,
+                    confidence = 100,
+                    confirmedBy = dto.confirmed
+                )
+            }
+        } catch (e: Exception) {
+            generateAlerts(center)
+        }
+    }
+
     fun generateAlerts(center: GeoPoint, count: Int = 8): List<TrafficAlert> {
         val types = AlertType.values()
         return List(count) {
@@ -59,6 +84,27 @@ object MapRepository {
         }
     }
 
+    suspend fun fetchPlaces(center: GeoPoint, category: PlaceCategory, radiusKm: Double = 5.0): List<Place> = withContext(Dispatchers.IO) {
+        try {
+            val dtos = ApiClient.api().getPlaces(center.latitude, center.longitude, radiusKm, category.key)
+            dtos.map { dto ->
+                Place(
+                    id = dto.id,
+                    name = dto.name,
+                    category = category,
+                    point = GeoPoint(dto.lat, dto.lon),
+                    distanceMeters = haversine(center, GeoPoint(dto.lat, dto.lon)),
+                    rating = dto.rating,
+                    isOpen = dto.isOpen == 1,
+                    fuelPrice = dto.fuelPrice,
+                    extra = dto.extra
+                )
+            }.sortedBy { it.distanceMeters }
+        } catch (e: Exception) {
+            generatePlaces(center, category)
+        }
+    }
+
     fun generatePlaces(center: GeoPoint, category: PlaceCategory): List<Place> {
         val names = placeNames[category] ?: listOf("Tempat")
         return List(Random.nextInt(5, 9)) {
@@ -82,7 +128,61 @@ object MapRepository {
         }.sortedBy { it.distanceMeters }
     }
 
-    fun buildRoute(from: GeoPoint, to: GeoPoint): RouteInfo {
+    suspend fun buildRoute(from: GeoPoint, to: GeoPoint): RouteInfo = withContext(Dispatchers.IO) {
+        try {
+            val resp = ApiClient.api().getDirections(
+                from = "${from.latitude},${from.longitude}",
+                to = "${to.latitude},${to.longitude}"
+            )
+            if (resp.routes.isNotEmpty()) {
+                val route = resp.routes.first()
+                val coords = route.geometry?.coordinates ?: emptyList()
+                val points = mutableListOf<GeoPoint>()
+                val segList = mutableListOf<RouteSegment>()
+                if (coords.isNotEmpty()) {
+                    points.add(from)
+                    coords.forEach { c ->
+                        points.add(GeoPoint(c[1], c[0]))
+                    }
+                    points.add(to)
+                    val segCount = points.size - 1
+                    val segDist = route.distance / segCount
+                    for (i in 0 until segCount) {
+                        segList.add(
+                            RouteSegment(
+                                from = points[i],
+                                to = points[i + 1],
+                                distanceMeters = segDist,
+                                traffic = TrafficLevel.FREE,
+                                roadName = "Jl. Route"
+                            )
+                        )
+                    }
+                }
+                val freeFlow = route.duration
+                val duration = route.duration * 1.1
+                RouteInfo(
+                    points = points.ifEmpty { listOf(from, to) },
+                    segments = segList.ifEmpty {
+                        listOf(
+                            RouteSegment(from, to, route.distance, TrafficLevel.FREE, "Jl. Route")
+                        )
+                    },
+                    totalDistanceMeters = route.distance,
+                    durationSeconds = duration,
+                    freeFlowDurationSeconds = freeFlow,
+                    hasTolls = false,
+                    overallTraffic = TrafficLevel.FREE
+                )
+            } else {
+                buildFallbackRoute(from, to)
+            }
+        } catch (e: Exception) {
+            buildFallbackRoute(from, to)
+        }
+    }
+
+    private fun buildFallbackRoute(from: GeoPoint, to: GeoPoint): RouteInfo {
         val segments = 4
         val points = mutableListOf(from)
         val segList = mutableListOf<RouteSegment>()
@@ -128,6 +228,48 @@ object MapRepository {
             hasTolls = Random.nextBoolean(),
             overallTraffic = overall
         )
+    }
+
+    suspend fun postReport(type: AlertType, point: GeoPoint, description: String, reporter: String = "Anda"): TrafficAlert? = withContext(Dispatchers.IO) {
+        try {
+            val dto = ApiClient.api().postReport(
+                mapOf(
+                    "type" to type.name,
+                    "lat" to point.latitude,
+                    "lon" to point.longitude,
+                    "description" to description,
+                    "reporter" to reporter
+                )
+            )
+            TrafficAlert(
+                id = dto.id,
+                type = type,
+                point = GeoPoint(dto.lat, dto.lon),
+                description = dto.description,
+                reporter = dto.reporter,
+                timestamp = dto.createdAt,
+                confidence = 100,
+                confirmedBy = dto.confirmed
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun postSos(user: String, point: GeoPoint, message: String = "SOS"): Boolean = withContext(Dispatchers.IO) {
+        try {
+            ApiClient.api().sendSos(
+                com.example.mapai.data.remote.SosDto(
+                    user = user,
+                    lat = point.latitude,
+                    lon = point.longitude,
+                    message = message
+                )
+            )
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
     fun currentWeather(): WeatherInfo {

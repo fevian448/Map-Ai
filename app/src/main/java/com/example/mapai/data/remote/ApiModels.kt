@@ -57,3 +57,32 @@ data class CctvDto(
     @SerializedName("lat") val lat: Double?,
     @SerializedName("lon") val lon: Double?
 )
+
+data class PlaceDto(
+    @SerializedName("id") val id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("category") val category: String,
+    @SerializedName("lat") val lat: Double,
+    @SerializedName("lon") val lon: Double,
+    @SerializedName("rating") val rating: Float,
+    @SerializedName("is_open") val isOpen: Int,
+    @SerializedName("fuel_price") val fuelPrice: String?,
+    @SerializedName("extra") val extra: String?
+)
+
+data class DirectionsResponse(
+    @SerializedName("code") val code: String,
+    @SerializedName("routes") val routes: List<RouteDto>,
+    @SerializedName("error") val error: String?
+)
+
+data class RouteDto(
+    @SerializedName("geometry") val geometry: GeometryDto?,
+    @SerializedName("distance") val distance: Double,
+    @SerializedName("duration") val duration: Double
+)
+
+data class GeometryDto(
+    @SerializedName("type") val type: String,
+    @SerializedName("coordinates") val coordinates: List<List<Double>>
+)

@@ -83,6 +83,19 @@ db.exec(`
     lat REAL,
     lon REAL
   );
+
+  CREATE TABLE IF NOT EXISTS places (
+    id TEXT PRIMARY KEY,
+    name TEXT,
+    category TEXT,
+    lat REAL,
+    lon REAL,
+    rating REAL,
+    is_open INTEGER DEFAULT 1,
+    fuel_price TEXT,
+    extra TEXT,
+    created_at INTEGER
+  );
 `);
 
 const app = express();
@@ -208,6 +221,46 @@ app.use(express.static(path.join(process.cwd(), "public")));
 
 // ---- Health ----
 app.get("/api/health", (req, res) => res.json({ name: "MapAi Backend", status: "ok", time: Date.now() }));
+
+// ---- Places (nearby POI) ----
+app.get("/api/places", (req, res) => {
+  const { lat, lon, radius = 5, category } = req.query;
+  let rows = db.prepare("SELECT * FROM places ORDER BY created_at DESC LIMIT 200").all();
+  if (lat && lon) {
+    const r = parseFloat(radius);
+    rows = rows.filter(p2 => {
+      const d = Math.hypot(p2.lat - parseFloat(lat), p2.lon - parseFloat(lon)) * 111;
+      return d <= r && (!category || p2.category === category);
+    });
+  }
+  res.json(rows);
+});
+
+app.post("/api/places", (req, res) => {
+  const { name, category, lat, lon, rating = 4.0, is_open = true, fuel_price, extra } = req.body;
+  const id = uid();
+  db.prepare(`INSERT INTO places (id,name,category,lat,lon,rating,is_open,fuel_price,extra,created_at)
+    VALUES (?,?,?,?,?,?,?,?,?,?)`).run(id, name, category, lat, lon, rating, is_open ? 1 : 0, fuel_price || null, extra || null, Date.now());
+  const row = db.prepare("SELECT * FROM places WHERE id=?").get(id);
+  io.emit("place:new", row);
+  res.json(row);
+});
+
+// ---- Directions proxy (OSRM open-source by default; plug Google if key provided) ----
+app.get("/api/directions", (req, res) => {
+  const { from, to, profile = "driving" } = req.query;
+  if (!from || !to) return res.status(400).json({ error: "from and to required" });
+  const [lat1, lon1] = from.split(",").map(Number);
+  const [lat2, lon2] = to.split(",").map(Number);
+  const googleKey = process.env.GOOGLE_MAPS_API_KEY;
+  if (googleKey) {
+    const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${lat1},${lon1}&destination=${lat2},${lon2}&key=${googleKey}`;
+    fetch(url).then(r => r.json()).then(data => res.json(data)).catch(() => res.json({ error: "directions_failed" }));
+  } else {
+    const osrm = `https://router.project-osrm.org/route/v1/${profile}/${lon1},${lat1};${lon2},${lat2}?overview=full&geometries=geojson`;
+    fetch(osrm).then(r => r.json()).then(data => res.json(data)).catch(() => res.json({ error: "directions_failed" }));
+  }
+});
 
 io.on("connection", (socket) => {
   socket.on("ping", () => socket.emit("pong", Date.now()));

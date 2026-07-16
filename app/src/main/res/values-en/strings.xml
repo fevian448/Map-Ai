@@ -26,7 +26,14 @@
     <string name="start_nav">Start Navigation</string>
     <string name="stop_nav">Stop</string>
     <string name="alerts_title">User Reports &amp; Traffic</string>
+    <string name="alert_hazard">Hazard</string>
+    <string name="alert_police">Police</string>
+    <string name="alert_accident">Accident</string>
+    <string name="alert_roadwork">Roadwork</string>
+    <string name="alert_speedcam">Speed Camera</string>
     <string name="report_here">Report here</string>
+    <string name="locating">Locating...</string>
+    <string name="recenters">Center on me</string>
     <string name="explore_title">Nearby Places &amp; Fuel</string>
     <string name="fuel">Fuel</string>
     <string name="food">Food</string>
