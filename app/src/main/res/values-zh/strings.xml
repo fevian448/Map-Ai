@@ -1,0 +1,27 @@
+<resources>
+    <string name="nav_map">地图</string>
+    <string name="nav_alerts">路况</string>
+    <string name="nav_explore">探索</string>
+    <string name="nav_drive">驾驶</string>
+    <string name="nav_profile">个人</string>
+    <string name="nav_settings">设置</string>
+    <string name="nav_chat">AI 助手</string>
+    <string name="nav_sos">紧急</string>
+    <string name="nav_tools">工具</string>
+    <string name="nav_help">帮助</string>
+    <string name="search_hint">搜索目的地、地址或地点…</string>
+    <string name="start_nav">开始导航</string>
+    <string name="stop_nav">停止</string>
+    <string name="alerts_title">用户上报与路况</string>
+    <string name="explore_title">附近地点与加油</string>
+    <string name="drive_title">驾驶模式</string>
+    <string name="settings_title">设置</string>
+    <string name="settings_language">语言</string>
+    <string name="settings_server">后端服务器地址</string>
+    <string name="settings_save">保存</string>
+    <string name="chat_title">MapAi AI 助手</string>
+    <string name="sos_title">紧急 / SOS</string>
+    <string name="sos_button">按下发送 SOS</string>
+    <string name="tools_title">工具与连接</string>
+    <string name="help_title">帮助与指南</string>
+</resources>

@@ -1,0 +1,27 @@
+<resources>
+    <string name="nav_map">الخريطة</string>
+    <string name="nav_alerts">التقارير</string>
+    <string name="nav_explore">استكشف</string>
+    <string name="nav_drive">القيادة</string>
+    <string name="nav_profile">الملف</string>
+    <string name="nav_settings">الإعدادات</string>
+    <string name="nav_chat">مساعد الذكاء</string>
+    <string name="nav_sos">طوارئ</string>
+    <string name="nav_tools">أدوات</string>
+    <string name="nav_help">مساعدة</string>
+    <string name="search_hint">ابحث عن وجهة أو عنوان أو مكان…</string>
+    <string name="start_nav">بدء الملاحة</string>
+    <string name="stop_nav">إيقاف</string>
+    <string name="alerts_title">تقارير المستخدمين والمرور</string>
+    <string name="explore_title">أماكن وبنزين قريبة</string>
+    <string name="drive_title">وضع القيادة</string>
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_server">عنوان الخادم</string>
+    <string name="settings_save">حفظ</string>
+    <string name="chat_title">مساعد MapAi الذكي</string>
+    <string name="sos_title">طوارئ / SOS</string>
+    <string name="sos_button">اضغط لإرسال SOS</string>
+    <string name="tools_title">الأدوات والاتصال</string>
+    <string name="help_title">المساعدة والدليل</string>
+</resources>

@@ -1,0 +1,102 @@
+<resources>
+    <string name="app_name">MapAi</string>
+    <string name="tagline">Navigasi cerdas, info lengkap</string>
+
+    <string name="nav_map">Peta</string>
+    <string name="nav_alerts">Laporan</string>
+    <string name="nav_explore">Jelajah</string>
+    <string name="nav_drive">Kemudi</string>
+    <string name="nav_profile">Profil</string>
+    <string name="nav_settings">Pengaturan</string>
+    <string name="nav_chat">Asisten AI</string>
+    <string name="nav_sos">Darurat</string>
+    <string name="nav_tools">Alat</string>
+    <string name="nav_help">Bantuan</string>
+
+    <string name="search_hint">Cari tujuan, alamat, atau tempat…</string>
+    <string name="locating">Mencari lokasi…</string>
+    <string name="permission_location_title">Izin Lokasi Diperlukan</string>
+    <string name="permission_location_desc">MapAi membutuhkan akses lokasi untuk menavigasi dan menampilkan info lalu lintas di sekitar Anda.</string>
+    <string name="grant_permission">Berikan Izin</string>
+
+    <string name="eta">Estimasi Tiba</string>
+    <string name="distance">Jarak</string>
+    <string name="duration">Waktu Tempuh</string>
+    <string name="current_speed">Kecepatan</string>
+    <string name="speed_limit">Batas</string>
+    <string name="traffic_free">Lancar</string>
+    <string name="traffic_slow">Padat</string>
+    <string name="traffic_jam">Macet</string>
+
+    <string name="start_nav">Mulai Navigasi</string>
+    <string name="stop_nav">Hentikan</string>
+    <string name="recenters">Pusatkan ke Saya</string>
+
+    <string name="alerts_title">Laporan Pengguna &amp; Lalu Lintas</string>
+    <string name="alert_hazard">Bahaya di jalan</string>
+    <string name="alert_police">Polisi</string>
+    <string name="alert_accident">Kecelakaan</string>
+    <string name="alert_roadwork">Perbaikan jalan</string>
+    <string name="alert_speedcam">Kamera kecepatan</string>
+    <string name="report_here">Laporkan di sini</string>
+
+    <string name="explore_title">Tempat &amp; BBM Terdekat</string>
+    <string name="fuel">BBM</string>
+    <string name="food">Makanan</string>
+    <string name="parking">Parkir</string>
+    <string name="hospital">Rumah Sakit</string>
+    <string name="atm">ATM</string>
+
+    <string name="drive_title">Mode Kemudi</string>
+    <string name="weather_title">Cuaca &amp; Jalan</string>
+    <string name="profile_title">Profil Pengemudi</string>
+
+    <string name="offline_note">Peta dapat diunduh untuk digunakan offline.</string>
+
+    <string name="settings_title">Pengaturan</string>
+    <string name="settings_language">Bahasa</string>
+    <string name="settings_units">Satuan</string>
+    <string name="settings_map_source">Sumber Peta</string>
+    <string name="settings_theme">Tema Gelap</string>
+    <string name="settings_auto_config">Konfigurasi Otomatis</string>
+    <string name="settings_offline">Hanya Mode Offline</string>
+    <string name="settings_server">URL Server Backend</string>
+    <string name="settings_sos_name">Nama Kontak Darurat</string>
+    <string name="settings_sos_phone">Telepon Kontak Darurat</string>
+    <string name="settings_save">Simpan</string>
+
+    <string name="chat_title">Asisten AI MapAi</string>
+    <string name="chat_hint">Tanya soal rute, macet, darurat…</string>
+    <string name="chat_send">Kirim</string>
+
+    <string name="sos_title">Darurat / SOS</string>
+    <string name="sos_button">TEKAN UNTUK SOS</string>
+    <string name="sos_call">Panggil Kontak</string>
+    <string name="sos_message">Kirim Pesan Darurat</string>
+    <string name="sos_location">Bagikan Lokasi</string>
+    <string name="sos_sent">SOS terkirim!</string>
+
+    <string name="tools_title">Alat &amp; Koneksi</string>
+    <string name="tools_wifiqr">WiFi QR</string>
+    <string name="tools_ip">Info IP &amp; Jaringan</string>
+    <string name="tools_nearby">Perangkat Terdekat</string>
+    <string name="tools_bluetooth">Bluetooth</string>
+    <string name="tools_file">File &amp; Bukti</string>
+    <string name="tools_cctv">Hubungkan CCTV</string>
+    <string name="tools_cloud">Sinkron Cloud</string>
+    <string name="tools_contributors">Kontributor</string>
+
+    <string name="help_title">Bantuan &amp; Panduan</string>
+    <string name="help_how_nav">Cara navigasi</string>
+    <string name="help_report">Cara melaporkan</string>
+    <string name="help_sos">Cara menggunakan SOS</string>
+
+    <string name="alarm_title">Pengingat &amp; Alarm</string>
+    <string name="alarm_add">Tambah Pengingat</string>
+    <string name="alarm_label">Label</string>
+    <string name="alarm_time">Waktu</string>
+
+    <string name="offline_title">Peta Offline</string>
+    <string name="offline_download">Unduh Area</string>
+    <string name="offline_status">Status</string>
+</resources>

@@ -1,0 +1,27 @@
+<resources>
+    <string name="nav_map">Peta</string>
+    <string name="nav_alerts">Laporan</string>
+    <string name="nav_explore">Jelajah</string>
+    <string name="nav_drive">Pandu</string>
+    <string name="nav_profile">Profil</string>
+    <string name="nav_settings">Tetapan</string>
+    <string name="nav_chat">Pembantu AI</string>
+    <string name="nav_sos">Kecemasan</string>
+    <string name="nav_tools">Alat</string>
+    <string name="nav_help">Bantuan</string>
+    <string name="search_hint">Cari destinasi, alamat atau tempat…</string>
+    <string name="start_nav">Mula Panduan</string>
+    <string name="stop_nav">Henti</string>
+    <string name="alerts_title">Laporan Pengguna &amp; Trafik</string>
+    <string name="explore_title">Tempat &amp; BBM Berdekatan</string>
+    <string name="drive_title">Mod Panduan</string>
+    <string name="settings_title">Tetapan</string>
+    <string name="settings_language">Bahasa</string>
+    <string name="settings_server">URL Pelayan Backend</string>
+    <string name="settings_save">Simpan</string>
+    <string name="chat_title">Pembantu AI MapAi</string>
+    <string name="sos_title">Kecemasan / SOS</string>
+    <string name="sos_button">TEKAN UNTUK SOS</string>
+    <string name="tools_title">Alat &amp; Sambungan</string>
+    <string name="help_title">Bantuan &amp; Panduan</string>
+</resources>

@@ -1,0 +1,27 @@
+<resources>
+    <string name="nav_map">Carte</string>
+    <string name="nav_alerts">Signalements</string>
+    <string name="nav_explore">Explorer</string>
+    <string name="nav_drive">Conduite</string>
+    <string name="nav_profile">Profil</string>
+    <string name="nav_settings">Paramètres</string>
+    <string name="nav_chat">Assistant IA</string>
+    <string name="nav_sos">Urgence</string>
+    <string name="nav_tools">Outils</string>
+    <string name="nav_help">Aide</string>
+    <string name="search_hint">Rechercher une destination, une adresse…</string>
+    <string name="start_nav">Démarrer la navigation</string>
+    <string name="stop_nav">Arrêter</string>
+    <string name="alerts_title">Signalements et trafic</string>
+    <string name="explore_title">Lieux et carburant à proximité</string>
+    <string name="drive_title">Mode conduite</string>
+    <string name="settings_title">Paramètres</string>
+    <string name="settings_language">Langue</string>
+    <string name="settings_server">URL du serveur</string>
+    <string name="settings_save">Enregistrer</string>
+    <string name="chat_title">Assistant IA MapAi</string>
+    <string name="sos_title">Urgence / SOS</string>
+    <string name="sos_button">APPUYEZ POUR SOS</string>
+    <string name="tools_title">Outils et connexion</string>
+    <string name="help_title">Aide et guide</string>
+</resources>
