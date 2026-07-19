@@ -2,6 +2,8 @@
 
 **MapAi** ialah aplikasi navigasi Android (alternatif Waze) yang dibina dengan **Jetpack Compose + Kotlin** dan backend **Node.js + Express + SQLite**. Projek ini bersifat open-source dan mengutamakan data real-time melalui Socket.IO.
 
+🚀 **Live Demo:** [https://fevian448.github.io/Map-Ai/](https://fevian448.github.io/Map-Ai/) (Live View Web)
+
 ---
 
 ## Fitur Utama
@@ -160,6 +162,49 @@ Buka projek dalam **Android Studio** ( Arctic Fox atau lebih baru), kemudian:
 | ![Map](docs/screenshots/map.png) | ![Alerts](docs/screenshots/alerts.png) | ![Explore](docs/screenshots/explore.png) | ![Drive](docs/screenshots/drive.png) | ![SOS](docs/screenshots/sos.png) |
 
 > *Skrin akan ditambah selepas build pertama.*
+
+---
+
+## Live Demo
+
+Cuba MapAi secara langsung dalam browser:
+
+- **Live View Web:** [https://fevian448.github.io/Map-Ai/](https://fevian448.github.io/Map-Ai/)
+  - Peta real-time dengan markers untuk laporan, SOS, dan media
+  - Realtime updates melalui Socket.IO
+  - Tanpa perlu install aplikasi
+
+**Nota:** Live view memerlukan backend yang berjalan. Sekarang ini menunjukkan data demo. Untuk data sebenar, deploy backend mengikut [DEPLOY.md](DEPLOY.md).
+
+---
+
+## Deploy untuk Umum
+
+Ikuti panduan dalam **[DEPLOY.md](DEPLOY.md)** untuk melaksanakan MapAi ke cloud:
+
+- **Backend:** Render, Railway, Fly.io, atau Docker self-hosted
+- **Live View:** GitHub Pages (automatic via GitHub Actions)
+- **Android App:** Build APK dan distribute
+
+### Quick Deploy
+
+```bash
+# Clone repo
+git clone https://github.com/fevian448/Map-Ai.git
+cd Map-Ai
+
+# Deploy backend (pilih salah satu)
+cd backend
+npm install
+npm start
+
+# Atau gunakan Docker
+docker build -t mapai-backend ./backend
+docker run -p 3000:3000 -v mapai-data:/app/data mapai-backend
+
+# Live view akan tersedia di
+# http://localhost:3000/
+```
 
 ---
 
