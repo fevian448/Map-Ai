@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.gson)
     implementation(libs.socket.io.client)
+    implementation(libs.google.mobile.ads)
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.10")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-common:2.2.10")

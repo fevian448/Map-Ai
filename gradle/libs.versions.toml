@@ -17,6 +17,7 @@ converterGson = "2.11.0"
 gson = "2.11.0"
 googleMapsCompose = "8.4.0"
 playServicesMaps = "20.0.0"
+googleMobileAds = "23.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -44,6 +45,7 @@ retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 google-maps-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "googleMapsCompose" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+google-mobile-ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "googleMobileAds" }
 socket-io-client = { group = "io.socket", name = "socket.io-client", version = "2.5.0" }
 
 [plugins]
