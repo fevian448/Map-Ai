@@ -27,6 +27,7 @@ object SocketManager {
         try {
             val opts = IO.Options().apply {
                 reconnection = true
+                reconnectionAttempts = Integer.MAX_VALUE
                 reconnectionDelay = 1000
                 reconnectionDelayMax = 5000
                 transports = arrayOf("websocket")
