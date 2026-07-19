@@ -65,7 +65,8 @@ object AdMobManager {
                     onAdDismissed()
                 }
             }
-            ad.show(androidx.activity.ComponentActivity.findActivity(context as androidx.compose.ui.platform.LocalContext.current))
+            val activity = context as? androidx.activity.ComponentActivity
+            activity?.let { ad.show(it) } ?: onAdDismissed()
         } ?: run {
             onAdDismissed()
         }

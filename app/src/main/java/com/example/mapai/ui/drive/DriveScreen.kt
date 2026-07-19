@@ -34,6 +34,7 @@ import com.example.mapai.data.MapRepository
 import com.example.mapai.ui.MapViewModel
 import com.example.mapai.ui.components.SectionTitle
 
+@Composable
 fun DriveScreen(viewModel: MapViewModel = viewModel()) {
     val state by viewModel.state.collectAsState()
     val speed = state.speedKmh

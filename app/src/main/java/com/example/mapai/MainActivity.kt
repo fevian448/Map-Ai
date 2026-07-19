@@ -26,6 +26,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -68,6 +69,10 @@ class MainActivity : ComponentActivity() {
         Configuration.getInstance().load(this, getSharedPreferences("mapai", MODE_PRIVATE))
         enableEdgeToEdge()
         requestRuntimePermissions()
+        
+        // Initialize offline cache system
+        com.example.mapai.data.MapRepository.initCache(this)
+        
         setContent {
             MapAiTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {

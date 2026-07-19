@@ -1,7 +1,9 @@
 package com.example.mapai.data
 
+import android.content.Context
 import com.example.mapai.data.remote.ApiClient
 import com.example.mapai.data.remote.PlaceDto
+import com.example.mapai.data.local.CacheManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.math.cos
@@ -9,6 +11,13 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 object MapRepository {
+    private var cacheManager: CacheManager? = null
+
+    fun initCache(context: Context) {
+        if (cacheManager == null) {
+            cacheManager = CacheManager(context)
+        }
+    }
 
     private val roadNames = listOf(
         "Jl. Sudirman", "Jl. Thamrin", "Jl. Gatot Subroto", "Jl. Ahmad Yani",

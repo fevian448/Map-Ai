@@ -28,7 +28,7 @@
     <string name="alarm_add">Tambah peringatan</string>
     <string name="alarm_label">Label</string>
     <string name="alarm_time">Masa</string>
-    <string name="alarm_title">Peringatan & alarm</string>
+    <string name="alarm_title">Peringatan &amp; alarm</string>
     <string name="alert_accident">Kemalangan</string>
     <string name="alert_hazard">Bahaya</string>
     <string name="alert_police">Polis</string>
@@ -77,12 +77,12 @@
     <string name="tools_cctv">Sambung CCTV</string>
     <string name="tools_cloud">Segerak awan</string>
     <string name="tools_contributors"> Penyumbang</string>
-    <string name="tools_file">Fail & bukti</string>
-    <string name="tools_ip">Maklumat IP & rangkaian</string>
+    <string name="tools_file">Fail &amp; bukti</string>
+    <string name="tools_ip">Maklumat IP &amp; rangkaian</string>
     <string name="tools_nearby">Peranti berdekatan</string>
     <string name="tools_wifiqr">WiFi QR</string>
     <string name="traffic_free">Lancar</string>
     <string name="traffic_jam">Sesak</string>
     <string name="traffic_slow">Perlahan</string>
-    <string name="weather_title">Cuaca & jalan</string>
+    <string name="weather_title">Cuaca &amp; jalan</string>
 </resources>
